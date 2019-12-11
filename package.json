@@ -1,0 +1,17 @@
+{
+  "name": "discord.ext",
+  "version": "1.0.0",
+  "description": "A wrapper for discord.js that allows for the creation and organization of commands",
+  "main": "build",
+  "scripts": {
+    "build": "tsc",
+    "test": "npm run build && node build/test/main.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^12.12.17",
+    "discord.js": "github:discordjs/discord.js#11.5-dev"
+  }
+}

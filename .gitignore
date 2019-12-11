@@ -1,0 +1,4 @@
+/node_modules
+/build/test/secrets.js
+/test/secrets.ts
+package-lock.json
