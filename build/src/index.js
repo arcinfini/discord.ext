@@ -91,19 +91,33 @@ var Extension;
                 throw new Errors.SectionExists(`section with name: ${section.name} already exists`);
             }
             this.Sections.set(section.name, section);
+            const loadCommand = (properties, method) => {
+                properties.section = section;
+                try { // Catches any errors when creating to prevent an error breaking the entire section
+                    this.createCommand(properties, method);
+                }
+                catch (e) {
+                    console.error(e);
+                }
+            };
+            const loadEvent = (properties, method) => {
+                try { // Catches any errors when creating to prevent an error breaking the entire section
+                    this.on(properties.name, method);
+                }
+                catch (e) {
+                    console.error(e);
+                }
+            };
             let propertyNames = Object.getOwnPropertyNames(Object.getPrototypeOf(section));
             for (let methodName of propertyNames) {
                 let method = section[methodName];
                 let commandProperties = method.commandProperties;
-                if (util_1.isUndefined(commandProperties)) {
-                    continue;
+                let eventProperties = method.eventProperties;
+                if (commandProperties) {
+                    loadCommand(commandProperties, method);
                 }
-                commandProperties.section = section;
-                try { // Catches any errors when creating a command to prevent an error breaking the entire section
-                    this.createCommand(commandProperties, method);
-                }
-                catch (e) {
-                    console.error(e);
+                if (eventProperties) {
+                    loadEvent(eventProperties, method);
                 }
             }
         }
@@ -159,10 +173,18 @@ var Extension;
                 return target;
             };
         }
+        static event(eventName) {
+            return function (target, propertyKey) {
+                target[propertyKey].eventProperties = {
+                    name: eventName || propertyKey
+                };
+                return target;
+            };
+        }
         get name() { return this.Properties.name; }
         get description() { return this.Properties.description; }
         get checks() { return Object.assign([], this.Properties.checks); }
-        get commands() { return Object.assign({}, this.Commands); }
+        get commands() { return this.Commands; }
         addCommand(command) {
             this.Commands.set(command.name, command);
         }

@@ -20,6 +20,9 @@ function CreateEmbed() {
     });
 }
 class Main extends Section {
+    async ready() {
+        console.log("Section events work");
+    }
     async help(context, sectionArg) {
         let sectionName = sectionArg.join(" ");
         let section = context.bot.getSection(sectionName);
@@ -37,6 +40,9 @@ class Main extends Section {
         await context.send(undefined, embed);
     }
 }
+__decorate([
+    Section.event()
+], Main.prototype, "ready", null);
 __decorate([
     Section.command({
         name: "help",

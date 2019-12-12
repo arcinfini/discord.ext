@@ -16,6 +16,11 @@ function CreateEmbed() {
 }
 
 class Main extends Section {
+    @Section.event()
+    public async ready() {
+        console.log("Section events work")
+    }
+    
     @Section.command({
         name: "help",
         description: "Provides help",

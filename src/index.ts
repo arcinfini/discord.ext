@@ -117,17 +117,26 @@ export namespace Extension {
 			
 			this.Sections.set(section.name, section)
 			
+			const loadCommand = (properties, method) => {
+				properties.section = section
+				try { // Catches any errors when creating to prevent an error breaking the entire section
+					this.createCommand(properties, method)
+				} catch (e) {console.error(e)}
+			}
+			const loadEvent = (properties, method) => {
+				try { // Catches any errors when creating to prevent an error breaking the entire section
+					this.on(properties.name, method)
+				} catch (e) {console.error(e)}
+			}
+
 			let propertyNames = Object.getOwnPropertyNames(Object.getPrototypeOf(section))
 			for (let methodName of propertyNames) {
 				let method = section[methodName]
 				let commandProperties = method.commandProperties
+				let eventProperties = method.eventProperties
 				
-				if (isUndefined(commandProperties)) {continue}
-
-				commandProperties.section = section
-				try { // Catches any errors when creating a command to prevent an error breaking the entire section
-					this.createCommand(commandProperties,method)
-				} catch (e) {console.error(e)}
+				if (commandProperties) {loadCommand(commandProperties, method)}
+				if (eventProperties) {loadEvent(eventProperties, method)}
 			}
 		}
 		/**Returns a section based on its name */
@@ -192,6 +201,15 @@ export namespace Extension {
 		public static command(properties?: CommandProperties) {
 			return function (target, propertyKey: string, descriptor: PropertyDescriptor) {
 				target[propertyKey].commandProperties = properties || {name: propertyKey}
+				return target
+			}
+		}
+
+		public static event(eventName?: string) {
+			return function (target, propertyKey: string) {
+				target[propertyKey].eventProperties = {
+					name: eventName || propertyKey
+				}
 				return target
 			}
 		}
