@@ -421,11 +421,12 @@ export class Command {
             let formatList = []
             formatList.push(properties.name)
             for (let [key, value] of Object.entries(properties.arguments)) {
-                // [] = optional // {} = multiple allowed
+                // [] = optional // {} = multiple allowed // [{}] = optional multi-argument
                 // [key = default]
-                let [first, last] = (value.optional) ? ['[', ']'] : ['{', '}']
+                let [firstOpt, lastOpt] = (value.optional) ? ['[', ']'] : ['', '']
+                let [firstMulti, lastMulti] = (value instanceof SpoiledConverter) ? ['{', '}'] : ['', '']
                 let defaultVal = (value.default) ? ` = ${value.default}` : ""
-                let push = `${first}${key}${defaultVal}${last}`
+                let push = `${firstOpt}${firstMulti}${key}${defaultVal}${lastMulti}${lastOpt}`
 
                 formatList.push(push)
             }
