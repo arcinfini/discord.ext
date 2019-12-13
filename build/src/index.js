@@ -304,7 +304,7 @@ var Extension;
             if (properties.name.indexOf(" ") !== -1) {
                 throw new Errors.InvalidCommandName("a command name can not contain a space");
             }
-            // Inserts a default format based on the commands arguments if there are any
+            // Setting defaults
             if (!properties.format && properties.arguments) {
                 let formatList = [];
                 formatList.push(properties.name);
@@ -318,6 +318,9 @@ var Extension;
                 }
                 properties.format = formatList.join(" ");
             }
+            properties.description = properties.description || "No description";
+            properties.hidden = (!util_1.isUndefined(properties.hidden)) ? false : properties.hidden;
+            properties.checks = properties.checks || [];
             this.properties = properties;
             this.callback = callback;
         }
