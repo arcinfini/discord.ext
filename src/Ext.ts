@@ -1,4 +1,4 @@
-import { Errors } from "./Errors"
+import { Errors } from "."
 import { Converter, SpoiledConverter } from "./Converters"
 import { Client, ClientOptions, Message, User, Guild, TextChannel, DMChannel, GroupDMChannel, RichEmbed, Attachment, MessageOptions, Collection } from "discord.js"
 import { isUndefined } from "util"

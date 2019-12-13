@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Errors_1 = require("./Errors");
+const _1 = require(".");
 const Converters_1 = require("./Converters");
 const discord_js_1 = require("discord.js");
 const util_1 = require("util");
@@ -51,7 +51,7 @@ class Bot extends discord_js_1.Client {
     /**Adds a command to be listened for when a message is sent */
     createCommand(properties, callback) {
         if (this.hasCommand(properties.name)) {
-            throw new Errors_1.Errors.CommandExists(`command with name: ${properties.name} already exists`);
+            throw new _1.Errors.CommandExists(`command with name: ${properties.name} already exists`);
         }
         let command = new Command(this, properties, callback);
         this.Commands.set(properties.name, command);
@@ -73,11 +73,11 @@ class Bot extends discord_js_1.Client {
             require(path_1.join(dir, modulePath)).setup(this);
         }
         catch (error) {
-            if (error instanceof Errors_1.Errors.SectionExists) {
+            if (error instanceof _1.Errors.SectionExists) {
                 throw error;
             }
             else {
-                throw new Errors_1.Errors.SectionImplementationError(error.message);
+                throw new _1.Errors.SectionImplementationError(error.message);
             }
         }
     }
@@ -88,7 +88,7 @@ class Bot extends discord_js_1.Client {
      */
     addSection(section) {
         if (this.hasSection(section.name)) {
-            throw new Errors_1.Errors.SectionExists(`section with name: ${section.name} already exists`);
+            throw new _1.Errors.SectionExists(`section with name: ${section.name} already exists`);
         }
         this.Sections.set(section.name, section);
         const loadCommand = (properties, method) => {
@@ -234,16 +234,16 @@ class Context {
     }
     async basicConversion(value, converter, name) {
         if (util_1.isUndefined(value) && !converter.optional) {
-            throw new Errors_1.Errors.MisssingRequiredArgument(`${name} missing from ${this.command.name} arguments`);
+            throw new _1.Errors.MisssingRequiredArgument(`${name} missing from ${this.command.name} arguments`);
         }
         else if (util_1.isUndefined(value) && !util_1.isUndefined(converter.default)) {
             return converter.default;
         }
         let conversion = await converter.convert(this, value).catch((error) => {
-            throw new Errors_1.Errors.BadArgument(`${name} failed to parse`);
+            throw new _1.Errors.BadArgument(`${name} failed to parse`);
         });
         if (util_1.isUndefined(conversion) || conversion === null) {
-            throw new Errors_1.Errors.MisssingRequiredArgument(`${name} missing from ${this.command.name} arguments`);
+            throw new _1.Errors.MisssingRequiredArgument(`${name} missing from ${this.command.name} arguments`);
         }
         return conversion;
     }
@@ -302,7 +302,7 @@ exports.Check = Check;
 class Command {
     constructor(bot, properties, callback) {
         if (properties.name.indexOf(" ") !== -1) {
-            throw new Errors_1.Errors.InvalidCommandName("a command name can not contain a space");
+            throw new _1.Errors.InvalidCommandName("a command name can not contain a space");
         }
         // Setting defaults
         if (!properties.format && properties.arguments) {
@@ -341,7 +341,7 @@ class Command {
             for (let check of obj.checks) {
                 let result = await check.check(context).catch(() => { });
                 if (util_1.isUndefined(result)) {
-                    throw new Errors_1.Errors.CheckImplementationError(`check failed to process correctly in ${this.name}`);
+                    throw new _1.Errors.CheckImplementationError(`check failed to process correctly in ${this.name}`);
                 }
                 else if (!result) {
                     return false;
@@ -356,7 +356,7 @@ class Command {
         }
         let canUse = await this.canUse(context);
         if (!canUse) {
-            throw new Errors_1.Errors.CheckError(`check failure`);
+            throw new _1.Errors.CheckError(`check failure`);
         }
         await this.callback(context, ...context.parameters);
     }

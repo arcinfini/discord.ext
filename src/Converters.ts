@@ -1,4 +1,4 @@
-import { Context } from "./Ext"
+import { Context } from "."
 import { User, GuildChannel, GuildMember, TextChannel, Role} from "discord.js"
 import { isUndefined, isNumber } from "util"
 

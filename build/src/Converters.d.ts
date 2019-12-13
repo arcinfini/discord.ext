@@ -1,4 +1,4 @@
-import { Context } from "./Ext";
+import { Context } from ".";
 import { User, GuildChannel, GuildMember, Role } from "discord.js";
 export declare type ConverterOptions = {
     default?: any;
