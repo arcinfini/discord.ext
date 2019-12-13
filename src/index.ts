@@ -415,6 +415,21 @@ export namespace Extension {
 			if (properties.name.indexOf(" ") !== -1) {
 				throw new Errors.InvalidCommandName("a command name can not contain a space")
 			}
+			// Inserts a default format based on the commands arguments if there are any
+			if (!properties.format && properties.arguments) {
+				let formatList = []
+				formatList.push(properties.name)
+				for (let [key, value] of Object.entries(properties.arguments)) {
+					// [] = optional // {} = multiple allowed
+					// [key = default]
+					let [first, last] = (value.optional) ? ['[', ']'] : ['{', '}']
+					let defaultVal = (value.default) ? ` = ${value.default}` : ""
+					let push = `${first}${key}${defaultVal}${last}`
+
+					formatList.push(push)
+				}
+				properties.format = formatList.join(" ")
+			}
 			
 			this.properties = properties
 			this.callback = callback
