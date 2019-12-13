@@ -8,9 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 const src_1 = require("../src");
 const discord_js_1 = require("discord.js");
-const Section = src_1.Extension.Section;
-const Converters = src_1.Extension.Converters;
-const SectionNameConverter = new Converters.SpoiledConverter(new Converters.StringConverter(), {
+const SectionNameConverter = new src_1.SpoiledConverter(new src_1.StringConverter(), {
     default: [""]
 });
 function CreateEmbed() {
@@ -19,7 +17,7 @@ function CreateEmbed() {
         description: "Help things"
     });
 }
-class Main extends Section {
+class Main extends src_1.Section {
     async ready() {
         console.log("Section events work");
     }
@@ -41,10 +39,10 @@ class Main extends Section {
     }
 }
 __decorate([
-    Section.event()
+    src_1.Section.event()
 ], Main.prototype, "ready", null);
 __decorate([
-    Section.command({
+    src_1.Section.command({
         name: "help",
         description: "Provides help",
         arguments: { sectionName: SectionNameConverter }

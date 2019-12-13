@@ -1,2 +1,2 @@
-import { Extension } from "../src";
-export declare function setup(bot: Extension.Bot): void;
+import { Bot } from "../src";
+export declare function setup(bot: Bot): void;

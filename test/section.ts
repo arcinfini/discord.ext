@@ -1,10 +1,8 @@
-import { Extension } from "../src"
+import { Bot, Context, Section, SpoiledConverter, StringConverter } from "../src"
 import { RichEmbed } from "discord.js"
 
-const Section = Extension.Section
-const Converters = Extension.Converters
 
-const SectionNameConverter = new Converters.SpoiledConverter(new Converters.StringConverter(), {
+const SectionNameConverter = new SpoiledConverter(new StringConverter(), {
     default: [""]
 })
 
@@ -26,7 +24,7 @@ class Main extends Section {
         description: "Provides help",
         arguments: {sectionName: SectionNameConverter}
     })
-    public async help(context: Extension.Context, sectionArg: string[]) {
+    public async help(context: Context, sectionArg: string[]) {
         let sectionName = sectionArg.join(" ")
         let section = context.bot.getSection(sectionName)
         let embed = CreateEmbed()
@@ -43,7 +41,7 @@ class Main extends Section {
     }
 }
 
-export function setup(bot: Extension.Bot) {
+export function setup(bot: Bot) {
     bot.addSection(new Main({
         name: "Help Section",
         description: "Contains commands used for helping"

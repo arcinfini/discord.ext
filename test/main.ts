@@ -1,7 +1,7 @@
-import {Extension} from "../src"
+import { Bot, Context } from "../src"
 
 const secrets = require("./secrets")
-const bot = new Extension.Bot("!")
+const bot = new Bot("!")
 
 bot.on("ready", () => {
     console.log("Bot is online")
@@ -9,7 +9,7 @@ bot.on("ready", () => {
 
 bot.createCommand({
     name: "test"
-}, async (context: Extension.Context) => {
+}, async (context: Context) => {
     await context.send("I am working")
 })
 
