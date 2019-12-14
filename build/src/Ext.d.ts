@@ -1,5 +1,5 @@
 import { Converter } from "./Converters";
-import { Client, ClientOptions, Message, User, Guild, TextChannel, DMChannel, GroupDMChannel, RichEmbed, Attachment, MessageOptions, Collection } from "discord.js";
+import { Client, ClientOptions, Message, User, Guild, TextChannel, DMChannel, GroupDMChannel, RichEmbed, Attachment, MessageOptions, Collection, GuildMember } from "discord.js";
 interface CommandContainer {
     getCommand(name: string): Command;
     hasCommand(name: string): boolean;
@@ -89,6 +89,7 @@ export declare type SendOptions = {
 };
 export declare class Context {
     readonly author: User;
+    readonly member: GuildMember;
     readonly message: Message;
     readonly guild: Guild;
     readonly channel: TextChannel | DMChannel | GroupDMChannel;

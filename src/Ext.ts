@@ -1,6 +1,6 @@
 import { Errors } from "."
 import { Converter, SpoiledConverter, OneofConverter } from "./Converters"
-import { Client, ClientOptions, Message, User, Guild, TextChannel, DMChannel, GroupDMChannel, RichEmbed, Attachment, MessageOptions, Collection } from "discord.js"
+import { Client, ClientOptions, Message, User, Guild, TextChannel, DMChannel, GroupDMChannel, RichEmbed, Attachment, MessageOptions, Collection, GuildMember } from "discord.js"
 import { isUndefined } from "util"
 import { join } from "path"
 
@@ -258,6 +258,7 @@ export type SendOptions = {
 
 export class Context {
     public readonly author: User
+    public readonly member: GuildMember
     public readonly message: Message
     public readonly guild: Guild
     public readonly channel: TextChannel | DMChannel | GroupDMChannel
@@ -343,6 +344,7 @@ export class Context {
         }
 
         this.author = message.author
+        this.member = message.member
         this.message = message
         this.guild = message.guild
         this.channel = message.channel

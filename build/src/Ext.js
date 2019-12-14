@@ -223,6 +223,7 @@ class Context {
             return; // message is not an existing command
         }
         this.author = message.author;
+        this.member = message.member;
         this.message = message;
         this.guild = message.guild;
         this.channel = message.channel;
