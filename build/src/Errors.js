@@ -36,6 +36,13 @@ var Errors;
     class CommandImplementationError extends CommandError {
     }
     Errors.CommandImplementationError = CommandImplementationError;
+    class ConverterError extends Error {
+    }
+    Errors.ConverterError = ConverterError;
+    /**Thrown when there is an error in a Converter implementation */
+    class ConverterImplementationError extends ConverterError {
+    }
+    Errors.ConverterImplementationError = ConverterImplementationError;
     class ArgumentError extends CommandError {
     }
     Errors.ArgumentError = ArgumentError;

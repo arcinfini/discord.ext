@@ -18,6 +18,10 @@ export namespace Errors {
     /**Thrown when a user-made callback throws an error */
     export class CommandImplementationError extends CommandError {}
 
+    export class ConverterError extends Error {}
+    /**Thrown when there is an error in a Converter implementation */
+    export class ConverterImplementationError extends ConverterError {}
+
     export class ArgumentError extends CommandError {}
     /**Thrown when context fails to parse an argument  */
     export class BadArgument extends ArgumentError {}

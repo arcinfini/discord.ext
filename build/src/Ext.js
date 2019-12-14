@@ -234,16 +234,16 @@ class Context {
     }
     async basicConversion(value, converter, name) {
         if (util_1.isUndefined(value) && !converter.optional) {
-            throw new _1.Errors.MisssingRequiredArgument(`${name} missing from ${this.command.name} arguments`);
+            throw new _1.Errors.MisssingRequiredArgument(`required argument: ${name} missing`);
         }
         else if (util_1.isUndefined(value) && !util_1.isUndefined(converter.default)) {
             return converter.default;
         }
         let conversion = await converter.convert(this, value).catch((error) => {
-            throw new _1.Errors.BadArgument(`${name} failed to parse`);
+            throw new _1.Errors.CommandImplementationError(`${name} failed to parse due to a converter error`);
         });
         if (util_1.isUndefined(conversion) || conversion === null) {
-            throw new _1.Errors.MisssingRequiredArgument(`${name} missing from ${this.command.name} arguments`);
+            throw new _1.Errors.BadArgument(`bad argument type for ${name}`);
         }
         return conversion;
     }

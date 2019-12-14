@@ -24,6 +24,11 @@ export declare namespace Errors {
     /**Thrown when a user-made callback throws an error */
     class CommandImplementationError extends CommandError {
     }
+    class ConverterError extends Error {
+    }
+    /**Thrown when there is an error in a Converter implementation */
+    class ConverterImplementationError extends ConverterError {
+    }
     class ArgumentError extends CommandError {
     }
     /**Thrown when context fails to parse an argument  */

@@ -275,17 +275,17 @@ export class Context {
 
     private async basicConversion(value, converter, name) {
         if (isUndefined(value) && !converter.optional) {
-            throw new Errors.MisssingRequiredArgument(`${name} missing from ${this.command.name} arguments`)
+            throw new Errors.MisssingRequiredArgument(`required argument: ${name} missing`)
         } else if (isUndefined(value) && !isUndefined(converter.default)) {
             return converter.default
         }
 
         let conversion = await converter.convert(this, value).catch((error) => {
-            throw new Errors.BadArgument(`${name} failed to parse`)
+            throw new Errors.CommandImplementationError(`${name} failed to parse due to a converter error`)
         })
         
         if (isUndefined(conversion) || conversion === null) {
-            throw new Errors.MisssingRequiredArgument(`${name} missing from ${this.command.name} arguments`)
+            throw new Errors.BadArgument(`bad argument type for ${name}`)
         }
         return conversion
     }
