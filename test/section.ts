@@ -2,7 +2,7 @@ import { Bot, Context, Section, SpoiledConverter, StringConverter } from "../src
 import { RichEmbed } from "discord.js"
 
 
-const SectionNameConverter = new SpoiledConverter(new StringConverter(), {
+const SectionNameConverter = new SpoiledConverter(StringConverter, {
     default: [""]
 })
 

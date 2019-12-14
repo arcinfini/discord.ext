@@ -43,12 +43,13 @@ export declare class MessageConverter extends Converter {
  * This converter will not stop converting arguments until it meets an error.
  * Be careful when using this as it may convert more than expected
  *
- * This converter does not support the optional option as it will always insert a list
+ * This converter only supports the default option since it is always
+ * considered optional
  */
-export declare class SpoiledConverter extends Converter {
+export declare class SpoiledConverter<T extends Converter> extends Converter {
     readonly defaultS: any;
     private readonly converter;
-    constructor(converter: Converter, options?: {
+    constructor(converter: (new () => T), options?: {
         default?: any[];
     });
     convert(context: Context, argument: any): Promise<any>;

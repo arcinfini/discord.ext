@@ -210,12 +210,13 @@ exports.MessageConverter = MessageConverter;
  * This converter will not stop converting arguments until it meets an error.
  * Be careful when using this as it may convert more than expected
  *
- * This converter does not support the optional option as it will always insert a list
+ * This converter only supports the default option since it is always
+ * considered optional
  */
 class SpoiledConverter extends Converter {
     constructor(converter, options = {}) {
         super({ optional: false });
-        this.converter = converter;
+        this.converter = new converter();
         this.defaultS = options.default;
     }
     async convert(context, argument) {

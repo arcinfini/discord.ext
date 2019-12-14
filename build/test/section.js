@@ -8,7 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 const src_1 = require("../src");
 const discord_js_1 = require("discord.js");
-const SectionNameConverter = new src_1.SpoiledConverter(new src_1.StringConverter(), {
+const SectionNameConverter = new src_1.SpoiledConverter(src_1.StringConverter, {
     default: [""]
 });
 function CreateEmbed() {

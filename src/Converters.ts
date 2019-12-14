@@ -196,15 +196,15 @@ export class MessageConverter extends Converter {
  * This converter will not stop converting arguments until it meets an error.
  * Be careful when using this as it may convert more than expected
  * 
- * This converter does not support the optional option as it will always insert a list
+ * This converter only supports the default option since it is always
+ * considered optional
  */
-export class SpoiledConverter extends Converter {
+export class SpoiledConverter<T extends Converter> extends Converter {
     public readonly defaultS
     private readonly converter: Converter
-    constructor(converter: Converter, options: {default?: any[]} = {}) {
+    constructor(converter: (new () => T), options: {default?: any[]} = {}) {
         super({optional: false})
-        this.converter = converter
-
+        this.converter = new converter()
         this.defaultS = options.default
     }
 
