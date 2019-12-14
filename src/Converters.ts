@@ -30,7 +30,7 @@ export abstract class Converter {
 
 /**Converts an argument to a number */
 export class NumberConverter extends Converter {
-    public convert(context: Context, argument) {
+    public async convert(context: Context, argument) {
         let conversion = Number(argument)
         return (isNaN(conversion)) ? undefined : conversion
     }

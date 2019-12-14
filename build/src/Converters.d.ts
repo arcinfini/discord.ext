@@ -12,7 +12,7 @@ export declare abstract class Converter {
 }
 /**Converts an argument to a number */
 export declare class NumberConverter extends Converter {
-    convert(context: Context, argument: any): number;
+    convert(context: Context, argument: any): Promise<number>;
 }
 /**Converts an argument to a string */
 export declare class StringConverter extends Converter {

@@ -13,7 +13,7 @@ class Converter {
 exports.Converter = Converter;
 /**Converts an argument to a number */
 class NumberConverter extends Converter {
-    convert(context, argument) {
+    async convert(context, argument) {
         let conversion = Number(argument);
         return (isNaN(conversion)) ? undefined : conversion;
     }
