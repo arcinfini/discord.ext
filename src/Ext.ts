@@ -1,4 +1,4 @@
-import { Errors } from "."
+import { Errors, Check } from "."
 import { Converter, SpoiledConverter, OneofConverter } from "./Converters"
 import { Client, ClientOptions, Message, User, Guild, TextChannel, DMChannel, GroupDMChannel, RichEmbed, Attachment, MessageOptions, Collection, GuildMember } from "discord.js"
 import { isUndefined } from "util"
@@ -118,6 +118,11 @@ export class Bot extends Client implements CommandContainer, CheckContainer {
         
         this.Sections.set(section.name, section)
         
+        const insertChecks = (properties, checklist) => {
+            if (properties.checks == undefined) {properties.checks = []}
+            Object.assign(properties.checks, checklist)
+        }
+
         const loadCommand = (properties, method) => {
             properties.section = section
             try { // Catches any errors when creating to prevent an error breaking the entire section
@@ -135,7 +140,9 @@ export class Bot extends Client implements CommandContainer, CheckContainer {
             let method = section[methodName]
             let commandProperties = method.commandProperties
             let eventProperties = method.eventProperties
+            let checkList = method.checks
             
+            if (checkList && commandProperties) {insertChecks(commandProperties, checkList)}
             if (commandProperties) {loadCommand(commandProperties, method)}
             if (eventProperties) {loadEvent(eventProperties, method)}
         }
@@ -364,28 +371,6 @@ export class Context {
 
     public async send(content?, options?: MessageOptions | RichEmbed | Attachment) {
         await this.channel.send(content, options)
-    }
-}
-
-/*
-
-Checks are classes that are ran before a command is invoked that
-checks if the command show be invoked. If any check returns a false,
-undefined or null value then the command will not be invoked
-
-*/
-export type CheckCallback = (ctx:Context) => Promise<boolean> | boolean
-
-export class Check {
-    private callback: CheckCallback
-
-    constructor(callback: CheckCallback) {
-        this.callback = callback
-    }
-
-    public async check(context: Context) {
-        let result = await this.callback(context)
-        return result
     }
 }
 

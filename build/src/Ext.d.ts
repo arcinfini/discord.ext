@@ -1,3 +1,4 @@
+import { Check } from ".";
 import { Converter } from "./Converters";
 import { Client, ClientOptions, Message, User, Guild, TextChannel, DMChannel, GroupDMChannel, RichEmbed, Attachment, MessageOptions, Collection, GuildMember } from "discord.js";
 interface CommandContainer {
@@ -110,12 +111,6 @@ export declare class Context {
     get prepared(): boolean;
     get hasGuild(): boolean;
     send(content?: any, options?: MessageOptions | RichEmbed | Attachment): Promise<void>;
-}
-export declare type CheckCallback = (ctx: Context) => Promise<boolean> | boolean;
-export declare class Check {
-    private callback;
-    constructor(callback: CheckCallback);
-    check(context: Context): Promise<boolean>;
 }
 export declare type CommandProperties = {
     name: string;
