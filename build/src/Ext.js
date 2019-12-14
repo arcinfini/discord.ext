@@ -91,6 +91,12 @@ class Bot extends discord_js_1.Client {
             throw new _1.Errors.SectionExists(`section with name: ${section.name} already exists`);
         }
         this.Sections.set(section.name, section);
+        const insertChecks = (properties, checklist) => {
+            if (properties.checks == undefined) {
+                properties.checks = [];
+            }
+            Object.assign(properties.checks, checklist);
+        };
         const loadCommand = (properties, method) => {
             properties.section = section;
             try { // Catches any errors when creating to prevent an error breaking the entire section
@@ -113,6 +119,10 @@ class Bot extends discord_js_1.Client {
             let method = section[methodName];
             let commandProperties = method.commandProperties;
             let eventProperties = method.eventProperties;
+            let checkList = method.checks;
+            if (checkList && commandProperties) {
+                insertChecks(commandProperties, checkList);
+            }
             if (commandProperties) {
                 loadCommand(commandProperties, method);
             }
@@ -296,16 +306,6 @@ class Context {
     }
 }
 exports.Context = Context;
-class Check {
-    constructor(callback) {
-        this.callback = callback;
-    }
-    async check(context) {
-        let result = await this.callback(context);
-        return result;
-    }
-}
-exports.Check = Check;
 class Command {
     constructor(bot, properties, callback) {
         if (properties.name.indexOf(" ") !== -1) {

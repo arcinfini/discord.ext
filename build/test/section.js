@@ -17,6 +17,16 @@ function CreateEmbed() {
         description: "Help things"
     });
 }
+function botadmin() {
+    return function (target, key) {
+        return src_1.Check.use(async (ctx) => {
+            let botGuild = ctx.bot.guilds.get("583304765442883624");
+            let member = await botGuild.fetchMember(ctx.author);
+            let role = member.roles.get("583307007210291220");
+            return role != undefined;
+        })(target, key);
+    };
+}
 class Main extends src_1.Section {
     async ready() {
         console.log("Section events work");
@@ -37,6 +47,15 @@ class Main extends src_1.Section {
         }
         await context.send(undefined, embed);
     }
+    async test(ctx) {
+        await ctx.send("Yes this is a dm");
+    }
+    async test1(ctx) {
+        await ctx.send("Yes this is a guild");
+    }
+    async admin(ctx) {
+        await ctx.send("hello admin");
+    }
 }
 __decorate([
     src_1.Section.event()
@@ -48,6 +67,29 @@ __decorate([
         arguments: { sectionName: SectionNameConverter }
     })
 ], Main.prototype, "help", null);
+__decorate([
+    src_1.Section.command({
+        name: "testcheck1",
+        description: "This command can only be called in DMs"
+    }),
+    src_1.Check.isDirectMessage(),
+    src_1.Check.whitelist(["229779964898181120"])
+], Main.prototype, "test", null);
+__decorate([
+    src_1.Section.command({
+        name: "testcheck2",
+        description: "This command can only be called in guilds"
+    }),
+    src_1.Check.isGuild(),
+    src_1.Check.blacklist(["229779964898181120"])
+], Main.prototype, "test1", null);
+__decorate([
+    src_1.Section.command({
+        name: "admin",
+        description: "only admins can use this"
+    }),
+    botadmin()
+], Main.prototype, "admin", null);
 function setup(bot) {
     bot.addSection(new Main({
         name: "Help Section",
