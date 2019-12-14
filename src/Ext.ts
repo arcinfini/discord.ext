@@ -284,7 +284,7 @@ export class Context {
             throw new Errors.CommandImplementationError(`${name} failed to parse due to a converter error`)
         })
         
-        if (isUndefined(conversion) || conversion === null) {
+        if (conversion == undefined && !converter.optional) {
             throw new Errors.BadArgument(`bad argument type for ${name}`)
         }
         return conversion

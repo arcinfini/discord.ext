@@ -228,12 +228,7 @@ exports.SpoiledConverter = SpoiledConverter;
  * A special type of converter that will only convert arguments if their value
  * is in the choices list
  *
- * Otherwise the converter throws the BadArgument Error
- *
- * This feature needs to be resolved because any error thrown inside a converter is
- * considered a ConverterImplementationError and breaks the entire command invokeation
- *
- * Will not be exported until a decision is decided
+ * Otherwise the converter returns undefined and context picks it up as an error
  */
 class OneofConverter extends Converter {
     constructor(converter, choices) {

@@ -242,7 +242,7 @@ class Context {
         let conversion = await converter.convert(this, value).catch((error) => {
             throw new _1.Errors.CommandImplementationError(`${name} failed to parse due to a converter error`);
         });
-        if (util_1.isUndefined(conversion) || conversion === null) {
+        if (conversion == undefined && !converter.optional) {
             throw new _1.Errors.BadArgument(`bad argument type for ${name}`);
         }
         return conversion;
