@@ -272,6 +272,12 @@ class Context {
                     conversion = converter.defaultS;
                 }
             }
+            else if (converter instanceof Converters_1.OneofConverter) {
+                conversion = await this.basicConversion(this.Segments[index++], converter, name);
+                if (conversion === undefined) {
+                    throw new _1.Errors.BadArgument(`expected one of ${converter.choices}`);
+                }
+            }
             else {
                 conversion = await this.basicConversion(this.Segments[index++], converter, name);
             }

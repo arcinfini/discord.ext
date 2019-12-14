@@ -1,6 +1,7 @@
 import { Context } from "."
 import { User, GuildChannel, GuildMember, TextChannel, Role} from "discord.js"
 import { isUndefined, isNumber } from "util"
+import { SSL_OP_NO_QUERY_MTU } from "constants"
 
 /*
 
@@ -210,5 +211,26 @@ export class SpoiledConverter<T extends Converter> extends Converter {
 
     public async convert(context: Context, argument) {
         return await this.converter.convert(context, argument)
+    }
+}
+
+/**
+ * A special type of converter that will only convert arguments if their value
+ * is in the choices list
+ * 
+ * Otherwise the converter returns undefined and context picks it up as an error
+ */
+export class OneofConverter<T extends Converter> extends Converter {
+    public readonly converter: Converter
+    public readonly choices: any[]
+    constructor(converter: new () => T, choices: []) {
+        super({optional: false})
+        this.converter = new converter()
+        this.choices = choices
+    }
+
+    public async convert(context: Context, argument) {
+        let result = await this.converter.convert(context, argument)
+        return (this.choices.includes(result)) ? result : undefined
     }
 }

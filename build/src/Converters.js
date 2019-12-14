@@ -224,3 +224,26 @@ class SpoiledConverter extends Converter {
     }
 }
 exports.SpoiledConverter = SpoiledConverter;
+/**
+ * A special type of converter that will only convert arguments if their value
+ * is in the choices list
+ *
+ * Otherwise the converter throws the BadArgument Error
+ *
+ * This feature needs to be resolved because any error thrown inside a converter is
+ * considered a ConverterImplementationError and breaks the entire command invokeation
+ *
+ * Will not be exported until a decision is decided
+ */
+class OneofConverter extends Converter {
+    constructor(converter, choices) {
+        super({ optional: false });
+        this.converter = new converter();
+        this.choices = choices;
+    }
+    async convert(context, argument) {
+        let result = await this.converter.convert(context, argument);
+        return (this.choices.includes(result)) ? result : undefined;
+    }
+}
+exports.OneofConverter = OneofConverter;

@@ -1,5 +1,5 @@
 import { Errors } from "."
-import { Converter, SpoiledConverter } from "./Converters"
+import { Converter, SpoiledConverter, OneofConverter } from "./Converters"
 import { Client, ClientOptions, Message, User, Guild, TextChannel, DMChannel, GroupDMChannel, RichEmbed, Attachment, MessageOptions, Collection } from "discord.js"
 import { isUndefined } from "util"
 import { join } from "path"
@@ -310,6 +310,11 @@ export class Context {
                 }
                 if (conversion.length == 0 && !isUndefined(converter.default)) {
                     conversion = converter.defaultS
+                }
+            } else if (converter instanceof OneofConverter) {
+                conversion = await this.basicConversion(this.Segments[index++], converter, name)
+                if (conversion === undefined) {
+                    throw new Errors.BadArgument(`expected one of ${converter.choices}`)
                 }
             } else {
                 conversion = await this.basicConversion(this.Segments[index++], converter, name)
