@@ -1,3 +1,4 @@
+import { Permissions } from "discord.js"
 import { Context, Errors } from "."
 /*
 
@@ -90,6 +91,38 @@ export class Check {
         return function (target, propertyKey) {
             return Check.use((ctx: Context) => {
                 return !ids.includes(ctx.author.id)
+            })(target, propertyKey)
+        }
+    }
+
+    /**
+     * Checks if the user has the passed permissions in the guild the command was used.
+     * 
+     * Always returns false if not used in a guild
+     */
+    public static hasPermissions(permissions: Permissions) {
+        return function (target, propertyKey) {
+            return Check.use((ctx: Context) => {
+                if (!ctx.hasGuild) {return false}
+
+                let memberPermissions = ctx.member.permissions
+                return memberPermissions.has(permissions)
+            })(target, propertyKey)
+        }
+    }
+
+    /**
+     * Checks if the bot has the passed permissions in the guild the command was used.
+     * 
+     * Always returns false if not used in a guild
+     */
+    public static botHasPermissions(permissions: Permissions) {
+        return function(target, propertyKey) {
+            return Check.use((ctx: Context) => {
+                if (!ctx.hasGuild) {return false}
+
+                let botPermissions = ctx.guild.me.permissions
+                return botPermissions.has(permissions)
             })(target, propertyKey)
         }
     }

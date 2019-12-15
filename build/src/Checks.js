@@ -80,6 +80,38 @@ class Check {
             })(target, propertyKey);
         };
     }
+    /**
+     * Checks if the user has the passed permissions in the guild the command was used.
+     *
+     * Always returns false if not used in a guild
+     */
+    static hasPermissions(permissions) {
+        return function (target, propertyKey) {
+            return Check.use((ctx) => {
+                if (!ctx.hasGuild) {
+                    return false;
+                }
+                let memberPermissions = ctx.member.permissions;
+                return memberPermissions.has(permissions);
+            })(target, propertyKey);
+        };
+    }
+    /**
+     * Checks if the bot has the passed permissions in the guild the command was used.
+     *
+     * Always returns false if not used in a guild
+     */
+    static botHasPermissions(permissions) {
+        return function (target, propertyKey) {
+            return Check.use((ctx) => {
+                if (!ctx.hasGuild) {
+                    return false;
+                }
+                let botPermissions = ctx.guild.me.permissions;
+                return botPermissions.has(permissions);
+            })(target, propertyKey);
+        };
+    }
     async check(context) {
         let result = await this.callback(context);
         return result;

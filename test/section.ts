@@ -1,5 +1,5 @@
 import { Bot, Context, Section, SpoiledConverter, StringConverter, Check } from "../src"
-import { RichEmbed } from "discord.js"
+import { RichEmbed, Permissions } from "discord.js"
 
 
 const SectionNameConverter = new SpoiledConverter(StringConverter, {
@@ -15,7 +15,6 @@ function CreateEmbed() {
 
 function botadmin() {
     return function (target, key) {
-        console.log("registering bot admin")
         return Check.use(async (ctx: Context) => {
             let botGuild = ctx.bot.guilds.get("583304765442883624")
             let member = await botGuild.fetchMember(ctx.author)
@@ -77,6 +76,15 @@ class Main extends Section {
     })
     public async admin(ctx: Context) {
         await ctx.send("hello admin")
+    }
+
+    @Section.command({
+        name: "delete"
+    })
+    @botadmin()
+    @Check.botHasPermissions(new Permissions(Permissions.FLAGS.MANAGE_MESSAGES))
+    public async delete(ctx: Context) {
+        await ctx.message.delete()
     }
 }
 

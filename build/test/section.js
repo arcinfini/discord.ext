@@ -57,6 +57,9 @@ class Main extends src_1.Section {
     async admin(ctx) {
         await ctx.send("hello admin");
     }
+    async delete(ctx) {
+        await ctx.message.delete();
+    }
 }
 __decorate([
     src_1.Section.event()
@@ -89,6 +92,13 @@ __decorate([
         description: "only admins can use this"
     })
 ], Main.prototype, "admin", null);
+__decorate([
+    src_1.Section.command({
+        name: "delete"
+    }),
+    botadmin(),
+    src_1.Check.botHasPermissions(new discord_js_1.Permissions(discord_js_1.Permissions.FLAGS.MANAGE_MESSAGES))
+], Main.prototype, "delete", null);
 function setup(bot) {
     bot.addSection(new Main({
         name: "Help Section",

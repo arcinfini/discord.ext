@@ -1,3 +1,4 @@
+import { Permissions } from "discord.js";
 import { Context } from ".";
 export declare type CheckCallback = (ctx: Context) => Promise<boolean> | boolean;
 export declare class Check {
@@ -29,6 +30,18 @@ export declare class Check {
      * Checks true if a user does not have an id in the list passed
      */
     static blacklist(ids: string[]): (target: any, propertyKey: any) => any;
+    /**
+     * Checks if the user has the passed permissions in the guild the command was used.
+     *
+     * Always returns false if not used in a guild
+     */
+    static hasPermissions(permissions: Permissions): (target: any, propertyKey: any) => any;
+    /**
+     * Checks if the bot has the passed permissions in the guild the command was used.
+     *
+     * Always returns false if not used in a guild
+     */
+    static botHasPermissions(permissions: Permissions): (target: any, propertyKey: any) => any;
     constructor(callback: CheckCallback);
     check(context: Context): Promise<boolean>;
 }
