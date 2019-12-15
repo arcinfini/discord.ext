@@ -15,6 +15,7 @@ function CreateEmbed() {
 
 function botadmin() {
     return function (target, key) {
+        console.log("registering bot admin")
         return Check.use(async (ctx: Context) => {
             let botGuild = ctx.bot.guilds.get("583304765442883624")
             let member = await botGuild.fetchMember(ctx.author)
@@ -56,7 +57,6 @@ class Main extends Section {
         description: "This command can only be called in DMs"
     })
     @Check.isDirectMessage()
-    @Check.whitelist(["229779964898181120"])
     public async test(ctx: Context) {
         await ctx.send("Yes this is a dm")
     }
@@ -66,16 +66,15 @@ class Main extends Section {
         description: "This command can only be called in guilds"
     })
     @Check.isGuild()
-    @Check.blacklist(["229779964898181120"])
     public async test1(ctx: Context) {
         await ctx.send("Yes this is a guild")
     }
 
+    @botadmin()
     @Section.command({
         name: "admin",
         description: "only admins can use this"
     })
-    @botadmin()
     public async admin(ctx: Context) {
         await ctx.send("hello admin")
     }

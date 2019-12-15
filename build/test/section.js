@@ -19,6 +19,7 @@ function CreateEmbed() {
 }
 function botadmin() {
     return function (target, key) {
+        console.log("registering bot admin");
         return src_1.Check.use(async (ctx) => {
             let botGuild = ctx.bot.guilds.get("583304765442883624");
             let member = await botGuild.fetchMember(ctx.author);
@@ -72,23 +73,21 @@ __decorate([
         name: "testcheck1",
         description: "This command can only be called in DMs"
     }),
-    src_1.Check.isDirectMessage(),
-    src_1.Check.whitelist(["229779964898181120"])
+    src_1.Check.isDirectMessage()
 ], Main.prototype, "test", null);
 __decorate([
     src_1.Section.command({
         name: "testcheck2",
         description: "This command can only be called in guilds"
     }),
-    src_1.Check.isGuild(),
-    src_1.Check.blacklist(["229779964898181120"])
+    src_1.Check.isGuild()
 ], Main.prototype, "test1", null);
 __decorate([
+    botadmin(),
     src_1.Section.command({
         name: "admin",
         description: "only admins can use this"
-    }),
-    botadmin()
+    })
 ], Main.prototype, "admin", null);
 function setup(bot) {
     bot.addSection(new Main({

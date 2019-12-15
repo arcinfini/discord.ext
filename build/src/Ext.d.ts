@@ -70,8 +70,11 @@ export declare class Section implements CommandContainer, CheckContainer {
      *
      * If no properties are provided then the required name property
      * will be interpreted as the method name
+     *
+     * This decorator also registers check decorators and inserts them
+     * into the commandProperties
      */
-    static command(properties?: CommandProperties): (target: any, propertyKey: string, descriptor: PropertyDescriptor) => any;
+    static command(properties?: CommandProperties): (target: any, propertyKey: string) => any;
     static event(eventName?: string): (target: any, propertyKey: string) => any;
     constructor(properties: SectionProperties);
     get name(): string;

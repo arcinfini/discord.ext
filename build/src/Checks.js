@@ -9,7 +9,7 @@ class Check {
      * Takes a callback as an argument and calls that check before
      * the command is called
      *
-     * The function for the command is taken and morphed into a new function.
+     * The callback is turned into a check that is then inserted into the method.
      * The check is embedded into the function of the command and will be called
      * every time.
      */
@@ -19,22 +19,21 @@ class Check {
             if (!(method instanceof Function)) {
                 throw new _1.Errors.CheckImplementationError("checks must be put on methods");
             }
+            let check = new Check(callback);
+            // Registers checks through method.commandProperties if the command decorator
+            // has already been called
+            if (method.commandProperties) {
+                method.commandProperties.checks.push(check);
+                return target;
+            }
+            // Registers checks through method.checks to be inserted into commandProperties.checks
+            // when the command decorator is called
             let checksList = method.checks;
             if (checksList == undefined) {
                 checksList = [];
                 method.checks = checksList;
             }
-            checksList.push(new Check(callback));
-            // if (method.commandProperties == undefined) {
-            //     throw new Errors.CheckImplementationError("method must be defined as a command before adding checks")
-            // }
-            // Insert the callbacks as a check
-            // target[propertyKey] = async (context: Context, ...args: any[]) => {
-            //     if (!await callback(context)) {
-            //         throw new Errors.CheckError("check failure")
-            //     }
-            //     await method(context, ...args)
-            // }
+            checksList.push(check);
             return target;
         };
     }

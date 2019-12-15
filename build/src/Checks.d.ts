@@ -6,7 +6,7 @@ export declare class Check {
      * Takes a callback as an argument and calls that check before
      * the command is called
      *
-     * The function for the command is taken and morphed into a new function.
+     * The callback is turned into a check that is then inserted into the method.
      * The check is embedded into the function of the command and will be called
      * every time.
      */

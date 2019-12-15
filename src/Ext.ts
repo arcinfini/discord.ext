@@ -140,9 +140,7 @@ export class Bot extends Client implements CommandContainer, CheckContainer {
             let method = section[methodName]
             let commandProperties = method.commandProperties
             let eventProperties = method.eventProperties
-            let checkList = method.checks
-            
-            if (checkList && commandProperties) {insertChecks(commandProperties, checkList)}
+
             if (commandProperties) {loadCommand(commandProperties, method)}
             if (eventProperties) {loadEvent(eventProperties, method)}
         }
@@ -205,10 +203,21 @@ export class Section implements CommandContainer, CheckContainer {
      * 
      * If no properties are provided then the required name property
      * will be interpreted as the method name
+     * 
+     * This decorator also registers check decorators and inserts them
+     * into the commandProperties
      */
     public static command(properties?: CommandProperties) {
-        return function (target, propertyKey: string, descriptor: PropertyDescriptor) {
-            target[propertyKey].commandProperties = properties || {name: propertyKey}
+        properties.checks = (properties.checks) ? properties.checks : []
+        
+        return function (target, propertyKey: string) {
+            let method = target[propertyKey]
+            let checks = method.checks
+            if (checks) {
+                properties.checks = properties.checks || []
+                Object.assign(properties.checks, checks)
+            }
+            method.commandProperties = properties
             return target
         }
     }
