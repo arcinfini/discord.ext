@@ -6,8 +6,8 @@ Mainly for my personal use. Features will be added as I need them and namings of
 
 Drastically changes the way discord.js is used.
 
-## Main Example
-Here is an example of what the main script may be
+## Main File Example
+Here is an example of what the main script would look like
 ```Typescript
 import { Bot, Context } from "discord.ext"
 
