@@ -2,7 +2,7 @@
 A wrapper for discord.js that allows for the creation and organization of commands. This wrapper is built for Typescript, but
 it can also be used in Javascript.
 
-Mainly for my personal use. Features will be added as I need them and namings of classes and their members may change randomly.
+This was built for a school project and personal intrest. I had no previous knowledge of JS or TS and I don't plan to update this in the future.
 
 Drastically changes the way discord.js is used.
 
