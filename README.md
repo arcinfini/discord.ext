@@ -6,6 +6,7 @@ This was built for a school project and personal intrest. I had no previous know
 
 Drastically changes the way discord.js is used.
 
+*examples are in TypeScript*
 ## Main File Example
 Here is an example of what the main script would look like
 ```Typescript
